@@ -4,12 +4,14 @@ from rest_framework import status
 from .models import User
 from .serializer import UserSerializer
 
+#This endpint will return all the users in the database
 @api_view(['GET'])
 def get_users(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
+#This endpoint will create a new user in the database
 @api_view(['POST'])
 def create_user(request):
     serializer = UserSerializer(data=request.data)
@@ -18,6 +20,7 @@ def create_user(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+#This endpoint will return, update or delete a user by ID
 @api_view(['GET', 'PUT', 'DELETE'])
 def user_detail(request,pk):
     try:
